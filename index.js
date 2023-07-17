@@ -2,7 +2,6 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
-import JWT from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import multer from 'multer'
 import morgan from 'morgan'
@@ -15,9 +14,6 @@ import authRoutes from './routes/auth.js'
 import { register } from './controllers/auth.js'
 import { createPost } from './controllers/posts.js'
 import { verifyToken } from './middleware/auth.js'
-import User from './models/User.js'
-import Post from './models/Post.js'
-import {users, posts} from './data/index.js'
  
 
 //configuration
@@ -36,11 +32,6 @@ app.use(bodyParser.json({limit: '30mb', extended: true}))
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}))
 app.use(cors())
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')))
-app.use(express.static(path.join(__dirname,'./client/build')))
-app.use('*', function(req, res){
-    res.sendFile(path.join(__dirname, './client/build/index.html'))
-})
-
 
 //file storage
 
