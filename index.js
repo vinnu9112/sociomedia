@@ -37,9 +37,6 @@ app.use(bodyParser.urlencoded({limit: '30mb', extended: true}))
 app.use(cors())
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')))
 app.use(express.static(path.join(__dirname,'./client/build')))
-app.use('*', function(req, res){
-    res.sendFile(path.join(__dirname, './client/build/index.html'))
-})
 
 
 //file storage
@@ -64,6 +61,10 @@ app.use('/auth', authRoutes)
 app.use('/users', userRoutes)
 app.use('/posts', postRoutes)
 
+//fix
+app.use('*', function(req, res){
+    res.sendFile(path.join(__dirname, './client/build/index.html'))
+})
 //mongoose
 const PORT = process.env.PORT || 6001;
 mongoose.connect(process.env.MONGO_URL, {
@@ -71,7 +72,7 @@ mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true
 }).then(()=>{
     app.listen(PORT, ()=> console.log(`Server Port ${PORT}`))
-
+    
     // Add One Data at a time
     // User.insertMany(users);
     // Post.insertMany(posts);
